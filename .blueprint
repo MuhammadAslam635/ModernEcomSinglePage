@@ -1,0 +1,27 @@
+created:
+    - database/factories/CategoryFactory.php
+    - database/factories/ProductFactory.php
+    - database/factories/OrderFactory.php
+    - database/factories/OrderItemFactory.php
+    - database/factories/TransactionFactory.php
+    - database/factories/ReviewFactory.php
+    - database/migrations/2024_04_27_210041_create_categories_table.php
+    - database/migrations/2024_04_27_210042_create_products_table.php
+    - database/migrations/2024_04_27_210043_create_orders_table.php
+    - database/migrations/2024_04_27_210044_create_order_items_table.php
+    - database/migrations/2024_04_27_210045_create_transactions_table.php
+    - database/migrations/2024_04_27_210046_create_reviews_table.php
+    - app/Models/Category.php
+    - app/Models/Product.php
+    - app/Models/Order.php
+    - app/Models/OrderItem.php
+    - app/Models/Transaction.php
+    - app/Models/Review.php
+models:
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string nullable', current_team_id: 'integer nullable', profile_photo_path: 'string nullable', two_factor_secret: 'text nullable', two_factor_recovery_codes: 'text nullable' }
+    Category: { name: 'nullable string', slug: 'unique string', logo: text, relationships: { hasMany: Product } }
+    Product: { name: string, slug: 'unique string', image: text, qty: integer, sale_qty: integer, price: 'double default(0)', sale_price: 'double default(0)', status: string, stock: string, description: 'nullable text', short_description: 'nullable text', relationships: { belongsTo: Category } }
+    Order: { user_id: unsignedBigInteger, total: 'double default(0)', tax: double, subtotal: double, discount: double, status: string, delivery_date: 'nullable date', cancel_date: 'nullable date', reason: 'nullable text', relationships: { belongsTo: User, hasMany: 'OrderItem Transaction' } }
+    OrderItem: { order_id: unsignedBigInteger, product_id: unsignedBigInteger, qty: integer, price: double, review: boolean, relationships: { belongsTo: 'Order Product' } }
+    Transaction: { order_id: unsignedBigInteger, status: string, payment: string, relationships: { belongsTo: Order } }
+    Review: { user_id: unsignedBigInteger, product_id: unsignedBigInteger, order_id: unsignedBigInteger, comment: text, rating: integer, relationships: { belongsTo: 'User Product Order' } }
